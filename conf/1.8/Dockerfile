@@ -1,7 +1,8 @@
 FROM busybox
-
-ADD dist/genie /opt/cni/bin/genie
-ADD conf/1.8/launch.sh /launch.sh
+ENV DIST_DIR ../../dist
+WORKDIR $DIST_DIR
+COPY . /opt/cni/bin
+ADD launch.sh /launch.sh
 RUN chmod +x /launch.sh
 
 ENV PATH=$PATH:/opt/cni/bin

@@ -45,7 +45,7 @@ fi
 
 # Place the new binaries if the directory is writeable.
 if [ -w "/host/opt/cni/bin/" ]; then
-        cp /opt/cni/bin/genie /host/opt/cni/bin/
+        cp /opt/cni/bin/* /host/opt/cni/bin/
         echo "Wrote CNIGenie CNI binaries to /host/opt/cni/bin/"
         echo "CNI plugin version: $(/host/opt/cni/bin/genie -v)"
 fi

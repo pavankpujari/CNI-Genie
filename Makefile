@@ -14,12 +14,13 @@ MAKE_SURE_DIST_EXIST := $(shell mkdir -p dist)
 .PHONY: clean plugin policy-controller policy-controller-binary admission-controller admission-controller-binary test-e2e
 default: plugin policy-controller-binary admission-controller-binary
 
-plugin: clean dist/genie
+plugin: dist/genie
 
 test-e2e: dist/genie-test
 
 clean:
-	rm -rf dist
+	rm -rf dist/
+	cd conf/1.8 && make clean
 
 policy-controller: genie-policy
 policy-controller-binary: genie-policy-binary
@@ -33,6 +34,7 @@ dist/genie: $(SRCFILES)
 	echo "Building genie plugin..."
 	@GOPATH=$(GO_PATH) CGO_ENABLED=0 go build -v -i -o dist/genie \
 	-ldflags "-X main.VERSION=1.0 -s -w" cni-genie.go
+	cd conf/1.8 && make
 
 nw-admission-controller-binary:
 	cd controllers/network-admission-controller && make

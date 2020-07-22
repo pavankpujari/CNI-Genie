@@ -28,6 +28,8 @@ import (
 	"strings"
 
 	"errors"
+	"sync"
+
 	"github.com/cni-genie/CNI-Genie/client"
 	it "github.com/cni-genie/CNI-Genie/interfaces"
 	"github.com/cni-genie/CNI-Genie/plugins"
@@ -36,11 +38,10 @@ import (
 	"github.com/containernetworking/cni/pkg/skel"
 	"github.com/containernetworking/cni/pkg/types"
 	"github.com/containernetworking/cni/pkg/types/current"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	api "k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes"
-	"sync"
 )
 
 const (
@@ -52,7 +53,7 @@ const (
 	DefaultPluginDir                   = "/opt/cni/bin"
 	MultiIPPreferencesAnnotationFormat = `{"multi_entry": 0,"ips": {}}`
 	// SupportedPlugins lists the plugins supported by Genie
-	SupportedPlugins = "bridge, calico, canal, flannel, macvlan, Romana, sriov, weave"
+	SupportedPlugins = "bridge, calico, canal, flannel, macvlan, Romana, sriov, weave, contiv-cni"
 	// DefaultIfNamePrefix specifies the default prefix to be used while generating interface names
 	DefaultIfNamePrefix = "eth"
 	// NetworkAttachmentDefinitionAnnot specifies the pod Network Attachment Selection Annotation
